@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard SIGAMI - Sistema de Gestão Ambiental</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-title">
+                    <i class="fas fa-leaf"></i>
+                    <h1>Dashboard SIGAMI</h1>
+                    <span class="subtitle">Sistema de Gestão Ambiental</span>
+                </div>
+                <div class="header-controls">
+                    <div class="upload-section">
+                        <input type="file" id="fileInput" accept=".xlsx,.xls" class="file-input">
+                        <label for="fileInput" class="btn btn--secondary">
+                            <i class="fas fa-upload"></i>
+                            Upload Excel
+                        </label>
+                    </div>
+                    <button class="btn btn--secondary" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i>
+                        Atualizar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Upload Instructions -->
+    <section class="upload-instructions" id="uploadInstructions">
+        <div class="container">
+            <div class="instruction-card">
+                <div class="instruction-icon">
+                    <i class="fas fa-file-excel"></i>
+                </div>
+                <div class="instruction-content">
+                    <h3>Carregue um arquivo Excel para começar</h3>
+                    <p>Faça upload de um arquivo .xlsx com dados de solicitações para gerar a dashboard. O arquivo deve conter as seguintes colunas:</p>
+                    <ul>
+                        <li><strong>protocolo:</strong> Número do protocolo</li>
+                        <li><strong>assunto:</strong> Assunto da solicitação</li>
+                        <li><strong>subsecretaria:</strong> Subsecretaria responsável</li>
+                        <li><strong>status:</strong> Status atual da solicitação</li>
+                        <li><strong>abertura:</strong> Data de abertura (DD/MM/AAAA)</li>
+                        <li><strong>prazo:</strong> Data prazo (DD/MM/AAAA)</li>
+                        <li><strong>analista:</strong> Analista responsável</li>
+                        <li><strong>cidade:</strong> Cidade</li>
+                        <li><strong>bairro:</strong> Bairro</li>
+                        <li><strong>uf:</strong> Estado (UF)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="dashboard-main" id="dashboardContent" style="display: none;">
+        <div class="container">
+            <!-- Filtros -->
+            <section class="filters-section">
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label for="dataInicio" class="form-label">Data Início</label>
+                        <input type="date" id="dataInicio" class="form-control">
+                    </div>
+                    <div class="filter-group">
+                        <label for="dataFim" class="form-label">Data Fim</label>
+                        <input type="date" id="dataFim" class="form-control">
+                    </div>
+                    <div class="filter-group">
+                        <label for="statusFilter" class="form-label">Status</label>
+                        <select id="statusFilter" class="form-control">
+                            <option value="">Todos os Status</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="subsecretariaFilter" class="form-label">Subsecretaria</label>
+                        <select id="subsecretariaFilter" class="form-control">
+                            <option value="">Todas as Subsecretarias</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="searchInput" class="form-label">Buscar</label>
+                        <input type="text" id="searchInput" class="form-control" placeholder="Protocolo ou assunto...">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Métricas Gerais -->
+            <section class="metrics-section">
+                <div class="metrics-grid">
+                    <div class="metric-card metric-card--total" data-filter="all">
+                        <div class="metric-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="totalSolicitacoes">0</div>
+                            <div class="metric-label">Total de Solicitações</div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card metric-card--completed" data-filter="Concluída">
+                        <div class="metric-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="concluidas">0</div>
+                            <div class="metric-label">Concluídas</div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card metric-card--progress" data-filter="Em Atendimento,Aguardando Solicitante">
+                        <div class="metric-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="emAndamento">0</div>
+                            <div class="metric-label">Em Andamento</div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card metric-card--pending" data-filter="Não Iniciado">
+                        <div class="metric-icon">
+                            <i class="fas fa-hourglass-start"></i>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="naoIniciadas">0</div>
+                            <div class="metric-label">Não Iniciadas</div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card metric-card--rate">
+                        <div class="metric-icon">
+                            <i class="fas fa-percent"></i>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="taxaConclusao">0%</div>
+                            <div class="metric-label">Taxa de Conclusão</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gráficos -->
+            <section class="charts-section">
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Distribuição por Status</h3>
+                            </div>
+                            <div class="card__body" style="position: relative; height: 300px;">
+                                <canvas id="statusChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Distribuição por Subsecretaria</h3>
+                            </div>
+                            <div class="card__body" style="position: relative; height: 300px;">
+                                <canvas id="subsecretariaChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container chart-wide">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Top 5 Assuntos</h3>
+                            </div>
+                            <div class="card__body" style="position: relative; height: 300px;">
+                                <canvas id="assuntosChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Distribuição Geográfica</h3>
+                                <div class="geo-tabs">
+                                    <button class="geo-tab geo-tab--active" data-tab="cidade">Por Cidade</button>
+                                    <button class="geo-tab" data-tab="bairro">Por Bairro</button>
+                                </div>
+                            </div>
+                            <div class="card__body" style="position: relative; height: 300px;">
+                                <canvas id="geograficaChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tabelas -->
+            <section class="tables-section">
+                <div class="tables-grid">
+                    <!-- Analistas -->
+                    <div class="table-container">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Analistas e Solicitações</h3>
+                            </div>
+                            <div class="card__body">
+                                <div class="table-responsive">
+                                    <table class="data-table" id="analistasTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Analista</th>
+                                                <th>Solicitações</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Solicitações Detalhadas -->
+                    <div class="table-container table-wide">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Solicitações Detalhadas</h3>
+                                <div class="table-controls">
+                                    <button class="btn btn--sm btn--outline" id="exportBtn">
+                                        <i class="fas fa-download"></i>
+                                        Exportar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card__body">
+                                <div class="table-responsive">
+                                    <table class="data-table" id="solicitacoesTable">
+                                        <thead>
+                                            <tr>
+                                                <th data-sort="protocolo">Protocolo</th>
+                                                <th data-sort="assunto">Assunto</th>
+                                                <th data-sort="subsecretaria">Subsecretaria</th>
+                                                <th data-sort="status">Status</th>
+                                                <th data-sort="abertura">Abertura</th>
+                                                <th data-sort="prazo">Prazo</th>
+                                                <th data-sort="analista">Analista</th>
+                                                <th data-sort="cidade">Cidade</th>
+                                                <th data-sort="bairro">Bairro</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
