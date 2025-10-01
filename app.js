@@ -239,18 +239,18 @@
     loadSample() {
       // Minimal realistic dataset (12 linhas)
       const sample = [
-        { protocolo:'2025-0001', assunto:'Chegada de Processo Judicial', subsecretaria:'SUBEXEC', status:'Não Iniciado', abertura:'15/09/2025', prazo:'25/09/2025', analista:'Julia Silveira', cidade:'Belford Roxo', bairro:'Centro', uf:'RJ' },
-        { protocolo:'2025-0002', assunto:'Emergência Ambiental', subsecretaria:'SUBCLAM', status:'Em Atendimento', abertura:'16/09/2025', prazo:'26/09/2025', analista:'Carlos Affonso', cidade:'Belford Roxo', bairro:'Areia Branca', uf:'RJ' },
-        { protocolo:'2025-0003', assunto:'Licenciamento', subsecretaria:'SUBINFRAS', status:'Aguardando Solicitante', abertura:'18/09/2025', prazo:'28/09/2025', analista:'Debhora Chrystine', cidade:'Belford Roxo', bairro:'Heliópolis', uf:'RJ' },
-        { protocolo:'2025-0004', assunto:'Ouvidoria SEMAS', subsecretaria:'SUBCLAM', status:'Concluída', abertura:'20/09/2025', prazo:'27/09/2025', analista:'Ryan (dev)', cidade:'Belford Roxo', bairro:'Centro', uf:'RJ' },
-        { protocolo:'2025-0005', assunto:'Agenda SM', subsecretaria:'SUBEXEC', status:'Não Iniciado', abertura:'22/09/2025', prazo:'29/09/2025', analista:'Ivan Ribeiro', cidade:'Belford Roxo', bairro:'Barro Vermelho', uf:'RJ' },
-        { protocolo:'2025-0006', assunto:'Emergência Ambiental', subsecretaria:'SUBEXEC', status:'Em Atendimento', abertura:'24/09/2025', prazo:'30/09/2025', analista:'Leandro Matos', cidade:'Nova Iguaçu', bairro:'Centro', uf:'RJ' },
-        { protocolo:'2025-0007', assunto:'Licenciamento', subsecretaria:'SUBINFRAS', status:'Não Iniciado', abertura:'25/09/2025', prazo:'05/10/2025', analista:'Teste', cidade:'Nova Iguaçu', bairro:'Posse', uf:'RJ' },
-        { protocolo:'2025-0008', assunto:'Ouvidoria SEMAS', subsecretaria:'SUBCLAM', status:'Concluída', abertura:'26/09/2025', prazo:'06/10/2025', analista:'Thalia (dev)', cidade:'Rio de Janeiro', bairro:'Tijuca', uf:'RJ' },
-        { protocolo:'2025-0009', assunto:'Emergência Ambiental', subsecretaria:'SUBEXEC', status:'Em Atendimento', abertura:'27/09/2025', prazo:'07/10/2025', analista:'Jonatas (dev)', cidade:'Rio de Janeiro', bairro:'Méier', uf:'RJ' },
-        { protocolo:'2025-0010', assunto:'Agenda SM', subsecretaria:'SUBEXEC', status:'Não Iniciado', abertura:'28/09/2025', prazo:'08/10/2025', analista:'João Marcelo (dev)', cidade:'São João de Meriti', bairro:'Centro', uf:'RJ' },
-        { protocolo:'2025-0011', assunto:'Chegada de Processo Judicial', subsecretaria:'SUBCLAM', status:'Aguardando Solicitante', abertura:'29/09/2025', prazo:'09/10/2025', analista:'Devs WBLE', cidade:'São João de Meriti', bairro:'Coelho da Rocha', uf:'RJ' },
-        { protocolo:'2025-0012', assunto:'Licenciamento', subsecretaria:'SUBINFRAS', status:'Concluída', abertura:'30/09/2025', prazo:'10/10/2025', analista:'Ryan (dev)', cidade:'Belford Roxo', bairro:'Centro', uf:'RJ' }
+        { protocolo:'2025-0001', assunto:'Chegada de Processo Judicial', subsecretaria:'SUBEXEC', status:'Não Iniciado', abertura:'15/09/2025', prazo:'25/09/2025', analista:'Analista 1', cidade:'Belford Roxo', bairro:'Centro', uf:'RJ' },
+        { protocolo:'2025-0002', assunto:'Emergência Ambiental', subsecretaria:'SUBCLAM', status:'Em Atendimento', abertura:'16/09/2025', prazo:'26/09/2025', analista:'Analista 2', cidade:'Belford Roxo', bairro:'Areia Branca', uf:'RJ' },
+        { protocolo:'2025-0003', assunto:'Licenciamento', subsecretaria:'SUBINFRAS', status:'Aguardando Solicitante', abertura:'18/09/2025', prazo:'28/09/2025', analista:'Analista 3', cidade:'Belford Roxo', bairro:'Heliópolis', uf:'RJ' },
+        { protocolo:'2025-0004', assunto:'Ouvidoria SEMAS', subsecretaria:'SUBCLAM', status:'Concluída', abertura:'20/09/2025', prazo:'27/09/2025', analista:'Analista 4', cidade:'Belford Roxo', bairro:'Centro', uf:'RJ' },
+        { protocolo:'2025-0005', assunto:'Agenda SM', subsecretaria:'SUBEXEC', status:'Não Iniciado', abertura:'22/09/2025', prazo:'29/09/2025', analista:'Analista 5', cidade:'Belford Roxo', bairro:'Barro Vermelho', uf:'RJ' },
+        { protocolo:'2025-0006', assunto:'Emergência Ambiental', subsecretaria:'SUBEXEC', status:'Em Atendimento', abertura:'24/09/2025', prazo:'30/09/2025', analista:'Analista 6', cidade:'Nova Iguaçu', bairro:'Centro', uf:'RJ' },
+        { protocolo:'2025-0007', assunto:'Licenciamento', subsecretaria:'SUBINFRAS', status:'Não Iniciado', abertura:'25/09/2025', prazo:'05/10/2025', analista:'Analista 7', cidade:'Nova Iguaçu', bairro:'Posse', uf:'RJ' },
+        { protocolo:'2025-0008', assunto:'Ouvidoria SEMAS', subsecretaria:'SUBCLAM', status:'Concluída', abertura:'26/09/2025', prazo:'06/10/2025', analista:'Analista 8', cidade:'Rio de Janeiro', bairro:'Tijuca', uf:'RJ' },
+        { protocolo:'2025-0009', assunto:'Emergência Ambiental', subsecretaria:'SUBEXEC', status:'Em Atendimento', abertura:'27/09/2025', prazo:'07/10/2025', analista:'Analista 9', cidade:'Rio de Janeiro', bairro:'Méier', uf:'RJ' },
+        { protocolo:'2025-0010', assunto:'Agenda SM', subsecretaria:'SUBEXEC', status:'Não Iniciado', abertura:'28/09/2025', prazo:'08/10/2025', analista:'Analista 10', cidade:'São João de Meriti', bairro:'Centro', uf:'RJ' },
+        { protocolo:'2025-0011', assunto:'Chegada de Processo Judicial', subsecretaria:'SUBCLAM', status:'Aguardando Solicitante', abertura:'29/09/2025', prazo:'09/10/2025', analista:'Analista 11', cidade:'São João de Meriti', bairro:'Coelho da Rocha', uf:'RJ' },
+        { protocolo:'2025-0012', assunto:'Licenciamento', subsecretaria:'SUBINFRAS', status:'Concluída', abertura:'30/09/2025', prazo:'10/10/2025', analista:'Analista 4', cidade:'Belford Roxo', bairro:'Centro', uf:'RJ' }
       ];
       this.records = sample.map((r) => this.normalizeRecord(r));
     }
