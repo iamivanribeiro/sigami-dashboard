@@ -1,6 +1,7 @@
 # Dashboard SIGAMI - Visualizador de Solicitações
 
  <!-- Substitua pela URL de uma captura de tela do seu dashboard -->
+ [![Dashboard-SIGAMI-Capture.png](https://i.postimg.cc/k4nf8MMg/Dashboard-SIGAMI-Capture.png)](https://postimg.cc/McF7JSjC)
 
 Um dashboard interativo e totalmente client-side para visualizar e analisar dados de solicitações de um sistema de gestão ambiental (SIGAMI). A aplicação permite que os usuários façam o upload de uma planilha Excel e gerem instantaneamente métricas, gráficos e tabelas, sem que nenhum dado seja enviado para um servidor.
 
