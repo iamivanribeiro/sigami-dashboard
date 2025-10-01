@@ -39,7 +39,7 @@ Como esta é uma aplicação puramente front-end, não há necessidade de instal
 
 1.  Clone este repositório:
     ```bash
-    git clone https://github.com/seu-usuario/seu-repositorio.git
+    git clone https://github.com/iamivanribeiro/sigami-dashboard.git
     ```
 2.  Abra o arquivo `index.html` em seu navegador de preferência (Chrome, Firefox, Edge, etc.).
 
